@@ -58,13 +58,6 @@ const telInput = new TelInput({
 | `priority`       | `array`    | `[]`           | Array of priority ISO codes.                    |
 | `search.placeholder` | `string` | `''`          | Placeholder text for the search input.          |
 
-### Methods
-
-#### Constructor
-Creates a new instance of `TelInput`.
-
-#### `init()`
-Initializes the component, loads modules, and sets up event listeners.
 
 ## Example
 
