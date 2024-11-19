@@ -1,0 +1,35 @@
+{
+  "name": "root",
+  "version": "0.0.0",
+  "description": "Workspace root",
+  "scripts": {
+    "build:t": "pnpm --filter vanilla build:t",
+    "build:p": "pnpm --filter @bgunnarsson/tel-input build:p",
+    "dev": "pnpm --filter=vanilla dev:t",
+    "dist": "pnpm build:p & pnpm git & pnpm --filter @bgunnarsson/tel-input dist",
+    "git": "git add . && git commit -m update && git push origin main"
+  },
+  "dependencies": {
+    "@babel/core": "^7.26.0",
+    "@bgunnarsson/tel-input": "workspace:*"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "vite",
+        "react",
+        "react-dom",
+        "@types/react",
+        "tslib",
+        "quill-delta",
+        "rxjs"
+      ],
+      "allowAny": [
+        "rustikus"
+      ]
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

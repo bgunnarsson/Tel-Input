@@ -1,0 +1,52 @@
+{
+  "name": "@bgunnarsson/tel-input",
+  "version": "0.0.1",
+  "description": "International Telephone Input javascript library",
+  "type": "module",
+  "access": "private",
+  "main": "dist/tel-input.cjs.js",
+  "module": "dist/tel-input.esm.js",
+  "scripts": {
+    "build:p": "rollup -c",
+    "dist": "pnpm publish"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/tel-input.esm.js",
+      "require": "./dist/tel-input.cjs.js",
+      "types": "./tel-input.d.ts"
+    },
+    "./react": {
+      "import": "./dist/react/index.js"
+    }
+  },
+  "types": "./tel-input.d.ts",
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "tel-input.d.ts"
+  ],
+  "keywords": [
+    "telephone",
+    "input",
+    "tel",
+    "country input"
+  ],
+  "author": "B. Gunnarsson | www.bgunnarsson.com",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/preset-react": "^7.25.7",
+    "@rollup/plugin-alias": "^5.1.1",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-url": "^8.0.2",
+    "rollup": "^4.24.0",
+    "rollup-plugin-copy": "^3.5.0"
+  },
+  "dependencies": {
+    "svgo": "^3.3.2"
+  }
+}

@@ -1,0 +1,53 @@
+.input-group .input-group__input {
+  width: 500px;
+  height: 60px;
+  border: 1px solid #ddd;
+  padding-left: 80px;
+}
+
+.input-group__input-wrap {
+  position: relative;
+}
+
+
+.bg-telinput__trigger {
+  width: 60px;
+  height: 100%;
+}
+
+.bg-telinput__tel,
+.bg-telinput__dropdown {
+  position: absolute;
+}
+.bg-telinput__tel {
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.bg-telinput__dropdown {
+  top: 100%;
+  left: 0;
+  width: 400px;
+  max-height: 200px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.bg-telinput__dropdown button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.bg-telinput__dropdown button > * {
+  pointer-events: none;
+}
+
+.bg-telinput__dropdown svg {
+  height: auto;
+  width: 22px;
+}

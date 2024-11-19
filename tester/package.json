@@ -1,0 +1,19 @@
+{
+  "name": "vanilla",
+  "version": "0.0.0",
+  "access": "private",
+  "type": "module",
+  "scripts": {
+    "dev:t": "vite",
+    "build:t": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@bgunnarsson/tel-input": "workspace:*",
+    "vite-plugin-svgr": "^4.3.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.8",
+    "vite-plugin-dynamic-import": "^1.6.0"
+  }
+}
