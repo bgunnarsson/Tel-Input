@@ -1,20 +1,23 @@
 
-# TelInput Documentation
+# @bgunnarsson/tel-input
 
 TelInput is a customizable telephone input field with dropdown country selection.
 
 ## Features
 
 - Automatic dropdown with country codes and flags.
-- Default country and code configuration.
 - Priority and exclusion of specific countries.
 - Searchable dropdown for quick country lookup.
-- Pre-filled input field with country code.
 
 ## Installation
 
-1. Include the `TelInput` class in your project.
-2. Ensure the `loadModules` function provides country and flag data.
+```
+pnpm install @bgunnarsson/tel-input
+
+npm install @bgunnarsson/tel-input
+yarn add @bgunnarsson/tel-input
+
+```
 
 ## Usage
 
@@ -58,13 +61,6 @@ const telInput = new TelInput({
 | `priority`       | `array`    | `[]`           | Array of priority ISO codes.                    |
 | `search.placeholder` | `string` | `''`          | Placeholder text for the search input.          |
 
-### Methods
-
-#### Constructor
-Creates a new instance of `TelInput`.
-
-#### `init()`
-Initializes the component, loads modules, and sets up event listeners.
 
 ## Example
 
@@ -74,7 +70,7 @@ Initializes the component, loads modules, and sets up event listeners.
     <input type="text" placeholder="Enter phone number">
   </div>
 </div>
-```  
+```
 
 ```javascript
 const telInput = new TelInput({
@@ -83,7 +79,7 @@ const telInput = new TelInput({
   country: 'is',
   code: '+354',
   priority: ['is', 'us', 'gb'],
-  exclude: ['al', 'af']
+  exclude: ['al', 'af'],
   search: {
     placeholder: 'Search countries...'
   }

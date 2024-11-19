@@ -11,8 +11,13 @@ TelInput is a customizable telephone input field with dropdown country selection
 
 ## Installation
 
-1. Include the `TelInput` class in your project.
-2. Ensure the `loadModules` function provides country and flag data.
+```
+pnpm install @bgunnarsson/tel-input
+
+npm install @bgunnarsson/tel-input
+yarn add @bgunnarsson/tel-input
+
+```
 
 ## Usage
 
