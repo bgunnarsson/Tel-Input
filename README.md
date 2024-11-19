@@ -76,7 +76,7 @@ const telInput = new TelInput({
   country: 'is',
   code: '+354',
   priority: ['is', 'us', 'gb'],
-  exclude: ['al', 'af']
+  exclude: ['al', 'af'],
   search: {
     placeholder: 'Search countries...'
   }
