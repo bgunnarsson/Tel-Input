@@ -1,15 +1,13 @@
 
-# TelInput Documentation
+# @bgunnarsson/tel-input
 
 TelInput is a customizable telephone input field with dropdown country selection.
 
 ## Features
 
 - Automatic dropdown with country codes and flags.
-- Default country and code configuration.
 - Priority and exclusion of specific countries.
 - Searchable dropdown for quick country lookup.
-- Pre-filled input field with country code.
 
 ## Installation
 
@@ -67,7 +65,7 @@ const telInput = new TelInput({
     <input type="text" placeholder="Enter phone number">
   </div>
 </div>
-```  
+```
 
 ```javascript
 const telInput = new TelInput({
