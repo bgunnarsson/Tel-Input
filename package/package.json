@@ -1,6 +1,6 @@
 {
   "name": "@bgunnarsson/tel-input",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "International Telephone Input javascript library",
   "type": "module",
   "access": "private",
