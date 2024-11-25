@@ -13,6 +13,7 @@ declare module '@bgunnarsson/tel-input' {
     exclude?: string[] // List of ISO codes to exclude (e.g., ['is', 'us'])
     priority?: string[] // List of ISO codes to prioritize (e.g., ['us', 'ca'])
     search?: TelInputSearchConfig // Search configuration
+    fillInput?: boolean // Whether to fill the input element with the selected country code
   }
 
   export default class TelInput {
