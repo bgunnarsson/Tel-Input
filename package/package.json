@@ -16,8 +16,13 @@
       "require": "./dist/tel-input.cjs.js",
       "types": "./tel-input.d.ts"
     },
-    "./react": {
-      "import": "./dist/react/index.js"
+    "./countries": {
+      "import": "./dist/countries.esm.js",
+      "require": "./dist/countries.cjs.js"
+    },
+    "./flags": {
+      "import": "./dist/flags.esm.js",
+      "require": "./dist/flags.cjs.js"
     }
   },
   "types": "./tel-input.d.ts",
