@@ -1,11 +1,12 @@
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
+import replace from '@rollup/plugin-replace'
 import { terser } from 'rollup-plugin-terser'
 import copy from 'rollup-plugin-copy'
 
 export default {
-  input: 'src/index.mjs', // Your input file
+  input: 'index.mjs', // Your input file
   output: [
     {
       file: 'dist/tel-input.esm.js',
@@ -22,7 +23,7 @@ export default {
       format: 'iife',
       name: 'TelInput',
       sourcemap: true,
-      plugins: [terser()], // Apply Terser only for this output
+      plugins: [terser()],
     },
   ],
   plugins: [
@@ -31,9 +32,14 @@ export default {
     }),
     commonjs(),
     json(),
+    replace({
+      preventAssignment: true,
+      delimiters: ['', ''],
+      '&quot;': '"', // Replace escaped quotes with actual quotes
+    }),
     copy({
       targets: [
-        { src: 'src/flags.mjs', dest: 'dist' }, // Copy flags.mjs without transformation
+        { src: 'src/flags.mjs', dest: 'dist' },
         { src: 'src/countries.mjs', dest: 'dist' },
       ],
     }),
