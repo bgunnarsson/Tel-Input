@@ -6,7 +6,7 @@ import { terser } from 'rollup-plugin-terser'
 import copy from 'rollup-plugin-copy'
 
 export default {
-  input: 'index.mjs', // Your input file
+  input: 'src/index.mjs', // Your input file
   output: [
     {
       file: 'dist/tel-input.esm.js',
