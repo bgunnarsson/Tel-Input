@@ -87,19 +87,19 @@ export default [
     },
     plugins: [
       ...commonPlugins,
-      alias({
-        entries: [
-          {
-            find: './countries.mjs',
-            replacement: './dist/countries.esm.js',
-          },
-          {
-            find: './flags.mjs',
-            replacement: './dist/flags.esm.js',
-          },
-        ],
-        customResolver: resolve(),
-      }),
+      // alias({
+      //   entries: [
+      //     {
+      //       find: './countries.mjs',
+      //       replacement: './dist/countries.esm.js',
+      //     },
+      //     {
+      //       find: './flags.mjs',
+      //       replacement: './dist/flags.esm.js',
+      //     },
+      //   ],
+      //   customResolver: resolve(),
+      // }),
       copy({
         targets: [
           { src: 'src/runtime-loader.js', dest: 'dist' }, // Move runtime-loader.js to dist

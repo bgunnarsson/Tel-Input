@@ -1,4 +1,14 @@
-import loadModules from './runtime-loader.js'
+async function loadModules() {
+  if (typeof require === 'function') {
+    // CommonJS environment
+    return {
+      countries: require('./countries.esm.js'),
+      flags: require('./flags.esm.js'),
+    }
+  }
+
+  throw new Error('Unsupported environment: Cannot load countries and flags')
+}
 
 export default class TelInput {
   constructor(options) {
@@ -53,7 +63,6 @@ export default class TelInput {
   }
 
   getSortedCountries(countries) {
-    console.log('<><> countries', countries)
     if (!countries) {
       console.error('[@bgunnarsson/tel-input] No countries provided.')
       return
