@@ -5,12 +5,7 @@ export default async function loadModules() {
       countries: require('./countries.esm.js'),
       flags: require('./flags.esm.js'),
     }
-  } else if (typeof import.meta !== 'undefined') {
-    // ESM environment
-    const countries = (await import('./countries.esm.js')).default
-    const flags = (await import('./flags.esm.js')).default
-    return { countries, flags }
-  } else {
-    throw new Error('Unsupported environment: Cannot load countries and flags')
   }
+
+  throw new Error('Unsupported environment: Cannot load countries and flags')
 }

@@ -53,6 +53,10 @@ export default class TelInput {
   }
 
   getSortedCountries(countries) {
+    if (!countries) {
+      console.error('[@bgunnarsson/tel-input] No countries provided.')
+      return
+    }
     const filteredCountries = countries.filter((data) => !this.config.exclude.includes(data.iso.toLowerCase()))
 
     const priorityCountries = filteredCountries
