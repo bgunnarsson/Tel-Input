@@ -63,11 +63,23 @@ export default class TelInput {
   }
 
   getSortedCountries(countries) {
-    if (!countries) {
-      console.error('[@bgunnarsson/tel-input] No countries provided.')
-      return
+    if (!Array.isArray(countries)) {
+      console.error('[@bgunnarsson/tel-input] Invalid countries data: Expected an array.')
+      return []
     }
-    const filteredCountries = countries?.filter((data) => !this.config.exclude.includes(data.iso.toLowerCase()))
+
+    // Validate each country object
+    const validCountries = countries.filter((data) => {
+      return (
+        data &&
+        typeof data.name === 'string' &&
+        data.name.trim() !== '' &&
+        typeof data.iso === 'string' &&
+        data.iso.trim() !== ''
+      )
+    })
+
+    const filteredCountries = validCountries.filter((data) => !this.config.exclude.includes(data.iso.toLowerCase()))
 
     const priorityCountries = filteredCountries
       .filter((data) => this.config.priority.includes(data.iso.toLowerCase()))
@@ -81,11 +93,36 @@ export default class TelInput {
 
     return [...priorityCountries, ...nonPriorityCountries].map((data) => ({
       name: data.name,
-      countryCode: data.countryCode,
+      countryCode: data.dialCode,
       iso: data.iso.toLowerCase(),
       flag: this.cachedFlags[data.iso.toLowerCase()] || '🌍',
     }))
   }
+
+  // getSortedCountries(countries) {
+  //   if (!countries) {
+  //     console.error('[@bgunnarsson/tel-input] No countries provided.')
+  //     return
+  //   }
+  //   const filteredCountries = countries?.filter((data) => !this.config.exclude.includes(data.iso.toLowerCase()))
+
+  //   const priorityCountries = filteredCountries
+  //     .filter((data) => this.config.priority.includes(data.iso.toLowerCase()))
+  //     .sort(
+  //       (a, b) => this.config.priority.indexOf(a.iso.toLowerCase()) - this.config.priority.indexOf(b.iso.toLowerCase())
+  //     )
+
+  //   const nonPriorityCountries = filteredCountries.filter(
+  //     (data) => !this.config.priority.includes(data.iso.toLowerCase())
+  //   )
+
+  //   return [...priorityCountries, ...nonPriorityCountries].map((data) => ({
+  //     name: data.name,
+  //     countryCode: data.countryCode,
+  //     iso: data.iso.toLowerCase(),
+  //     flag: this.cachedFlags[data.iso.toLowerCase()] || '🌍',
+  //   }))
+  // }
 
   buildTelInput(input) {
     const container = document.createElement('div')
