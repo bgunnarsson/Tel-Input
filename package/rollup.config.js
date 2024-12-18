@@ -51,14 +51,16 @@ export default [
     input: 'src/countries.mjs',
     output: [
       {
-        file: 'dist/countries.esm.js',
+        dir: 'dist',
         format: 'esm',
-      },
-      {
-        file: 'dist/countries.cjs.js',
-        format: 'cjs',
+        entryFileNames: '[name].esm.js',
         exports: 'auto',
       },
+      // {
+      //   file: 'dist/countries.cjs.js',
+      //   format: 'cjs',
+      //   exports: 'auto',
+      // },
     ],
     plugins: [...commonPlugins, ...(isProduction ? productionPlugins : [])],
   },
@@ -68,21 +70,18 @@ export default [
     input: 'src/index.mjs', // Core input
     output: [
       {
-        file: 'dist/tel-input.cjs.js', // CommonJS output
-        format: 'cjs',
-        exports: 'auto',
-      },
-      {
-        file: 'dist/tel-input.esm.js', // ESM output
+        dir: 'dist',
         format: 'esm',
+        entryFileNames: '[name].esm.js',
+        exports: 'auto',
       },
     ],
     external: (id) => {
       return [
         './runtime-loader.js',
-        './countries.cjs.js',
+        // './countries.cjs.js',
         './countries.esm.js',
-        './flags.cjs.js',
+        // './flags.cjs.js',
         './flags.esm.js',
       ].includes(id)
     },
@@ -92,11 +91,11 @@ export default [
         entries: [
           {
             find: './countries.mjs',
-            replacement: process.env.BUILD_FORMAT === 'cjs' ? './countries.cjs.js' : './countries.esm.js',
+            replacement: './dist/countries.esm.js',
           },
           {
             find: './flags.mjs',
-            replacement: process.env.BUILD_FORMAT === 'cjs' ? './flags.cjs.js' : './flags.esm.js',
+            replacement: './dist/flags.esm.js',
           },
         ],
         customResolver: resolve(),
