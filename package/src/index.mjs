@@ -212,6 +212,7 @@ export default class TelInput {
 
   createDropdownItem(name, countryCode, flag, input, trigger, dropdown) {
     const item = document.createElement('button')
+    item.type = 'button'
     item.classList.add('bg-telinput__dropdown-item')
     item.dataset.country = name
     item.dataset.code = countryCode

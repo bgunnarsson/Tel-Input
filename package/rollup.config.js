@@ -32,6 +32,11 @@ export default defineConfig({
     }),
     commonjs(), // Convert CommonJS to ESM
     json(), // Handle JSON imports
+    replace({
+      preventAssignment: true,
+      delimiters: ['', ''],
+      '></svg>': '><!--SVG-END--></svg>', // Ensure the SVG code stays intact
+    }),
     copy({
       targets: [
         { src: 'src/countries.mjs', dest: 'dist' }, // Copy countries.mjs
