@@ -1,6 +1,6 @@
 {
   "name": "@bgunnarsson/tel-input",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "description": "International Telephone Input JavaScript library",
   "type": "module",
   "access": "private",
@@ -40,6 +40,7 @@
     "@rollup/plugin-replace": "^6.0.2",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-url": "^8.0.2",
+    "@rollup/plugin-virtual": "^3.0.2",
     "eslint": "^8.50.0",
     "rollup": "^4.24.0",
     "rollup-plugin-copy": "^3.5.0",

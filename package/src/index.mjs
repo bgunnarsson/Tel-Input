@@ -3,7 +3,7 @@ async function loadModules() {
     // Adjust paths for the bundled files
     return {
       countries: require('./countries.mjs').default,
-      flags: require('./flags.mjs').default,
+      flags: require('flags.mjs').default,
     }
   }
 
