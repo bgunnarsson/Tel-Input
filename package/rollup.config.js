@@ -32,14 +32,16 @@ export default [
     input: 'src/flags.mjs',
     output: [
       {
-        file: 'dist/flags.esm.js',
+        dir: 'dist',
         format: 'esm',
-      },
-      {
-        file: 'dist/flags.cjs.js',
-        format: 'cjs',
+        entryFileNames: '[name].esm.js',
         exports: 'auto',
       },
+      // {
+      //   file: 'dist/flags.cjs.js',
+      //   format: 'cjs',
+      //   exports: 'auto',
+      // },
     ],
     plugins: [...commonPlugins, ...(isProduction ? productionPlugins : [])],
   },
