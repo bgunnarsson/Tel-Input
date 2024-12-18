@@ -1,26 +1,26 @@
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
-import babel from '@rollup/plugin-babel'
 import json from '@rollup/plugin-json'
+import copy from 'rollup-plugin-copy'
 import { defineConfig } from 'rollup'
 
 export default defineConfig({
-  input: 'src/index.mjs', // Entry file
+  input: 'src/TelInput.js', // Entry point
   output: [
     {
-      file: 'dist/tel-input.cjs.js',
-      format: 'cjs', // CommonJS
+      file: 'dist/tel-input.esm.js',
+      format: 'esm', // ES module format
       sourcemap: true,
     },
     {
-      file: 'dist/tel-input.esm.js',
-      format: 'esm', // ES Module
+      file: 'dist/tel-input.cjs.js',
+      format: 'cjs', // CommonJS format
       sourcemap: true,
     },
     {
       file: 'dist/tel-input.min.js',
-      format: 'iife', // Browser-ready IIFE
+      format: 'iife', // Browser-ready format
       name: 'TelInput',
       sourcemap: true,
       plugins: [terser()],
@@ -28,14 +28,16 @@ export default defineConfig({
   ],
   plugins: [
     resolve({
-      extensions: ['.js', '.mjs'], // Resolve .mjs and .js files
+      extensions: ['.js', '.mjs'], // Ensure Rollup resolves .mjs files
     }),
     commonjs(), // Convert CommonJS to ESM
     json(), // Handle JSON imports
-    babel({
-      babelHelpers: 'bundled',
-      exclude: 'node_modules/**',
+    copy({
+      targets: [
+        { src: 'src/countries.mjs', dest: 'dist' }, // Copy countries.mjs
+        { src: 'src/flags.mjs', dest: 'dist' }, // Copy flags.mjs
+      ],
     }),
   ],
-  external: [], // Specify external dependencies if needed
+  external: [], // Leave this empty to bundle everything
 })
