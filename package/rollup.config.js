@@ -35,7 +35,13 @@ export default {
     replace({
       preventAssignment: true,
       delimiters: ['', ''],
-      '&quot;': '"', // Replace escaped quotes with actual quotes
+      values: {
+        '&quot;': '"', // Replace escaped double quotes
+        '&apos;': "'", // Replace escaped single quotes
+        '&lt;': '<', // Replace escaped less-than
+        '&gt;': '>', // Replace escaped greater-than
+        '&amp;': '&', // Replace escaped ampersands
+      },
     }),
     copy({
       targets: [
