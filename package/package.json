@@ -1,6 +1,6 @@
 {
   "name": "@bgunnarsson/tel-input",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "International Telephone Input javascript library",
   "type": "module",
   "access": "private",
@@ -10,18 +10,9 @@
     "dist": "pnpm publish"
   },
   "exports": {
-    ".": {
-      "import": "./dist/tel-input.esm.js",
-      "require": "./dist/tel-input.cjs.js"
-    },
-    "./countries": {
-      "import": "./dist/countries.esm.js",
-      "require": "./dist/countries.cjs.js"
-    },
-    "./flags": {
-      "import": "./dist/flags.esm.js",
-      "require": "./dist/flags.cjs.js"
-    }
+    ".": "./dist/tel-input.esm.js",
+    "./countries": "./dist/countries.esm.js",
+    "./flags": "./dist/flags.esm.js"
   },
   "types": "./tel-input.d.ts",
   "files": [
