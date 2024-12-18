@@ -6,7 +6,7 @@ import copy from 'rollup-plugin-copy'
 import { defineConfig } from 'rollup'
 
 export default defineConfig({
-  input: 'src/TelInput.js', // Entry point
+  input: 'src/index.mjs', // Entry point
   output: [
     {
       file: 'dist/tel-input.esm.js',
