@@ -1,9 +1,9 @@
 async function loadModules() {
   if (typeof require === 'function') {
-    // CommonJS environment
+    // Adjust paths for the bundled files
     return {
-      countries: require('./countries.mjs'),
-      flags: require('./flags.mjs'),
+      countries: require('./countries.mjs').default,
+      flags: require('./flags.mjs').default,
     }
   }
 
