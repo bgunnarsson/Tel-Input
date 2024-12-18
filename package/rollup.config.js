@@ -3,10 +3,11 @@ import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import virtual from '@rollup/plugin-virtual'
 import { terser } from 'rollup-plugin-terser'
-
+import copy from 'rollup-plugin-copy'
 import fs from 'node:fs'
 
-const flagsContent = fs.readFileSync('src/flags.mjs', 'utf-8') // Read the raw content of flags.mjs
+// Load the content of flags.mjs as a raw string
+const flagsContent = fs.readFileSync('src/flags.mjs', 'utf-8')
 
 export default {
   input: 'src/index.mjs', // Your input file
@@ -31,12 +32,18 @@ export default {
   ],
   plugins: [
     virtual({
-      'flags.mjs': flagsContent, // Embed the raw content of flags.mjs
+      'flags.mjs': flagsContent, // Use virtual module for flags.mjs
     }),
     resolve({
       extensions: ['.js', '.mjs'],
     }),
     commonjs(),
     json(),
+    copy({
+      targets: [
+        { src: 'src/countries.mjs', dest: 'dist' }, // Copy countries.mjs as-is
+      ],
+    }),
   ],
+  external: ['./countries.mjs'], // Mark countries.mjs as an external dependency
 }
