@@ -1,14 +1,10 @@
 {
   "name": "@bgunnarsson/tel-input",
-  "version": "0.0.15",
-  "description": "International Telephone Input javascript library",
+  "version": "0.0.16",
+  "description": "International Telephone Input JavaScript library",
   "type": "module",
   "access": "private",
   "main": "dist/tel-input.esm.js",
-  "scripts": {
-    "build:p": "rollup -c",
-    "dist": "pnpm publish"
-  },
   "exports": {
     ".": "./dist/tel-input.esm.js",
     "./countries": "./dist/countries.esm.js",
@@ -21,6 +17,11 @@
     "README.md",
     "tel-input.d.ts"
   ],
+  "scripts": {
+    "build": "rollup -c",
+    "build:p": "rollup -c",
+    "dist": "pnpm publish"
+  },
   "keywords": [
     "telephone",
     "input",
@@ -37,8 +38,11 @@
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-url": "^8.0.2",
+    "@rollup/plugin-json": "^5.0.2",
     "rollup": "^4.24.0",
-    "rollup-plugin-copy": "^3.5.0"
+    "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "eslint": "^8.50.0"
   },
   "dependencies": {
     "svgo": "^3.3.2"

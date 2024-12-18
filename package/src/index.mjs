@@ -2,8 +2,8 @@ async function loadModules() {
   if (typeof require === 'function') {
     // CommonJS environment
     return {
-      countries: require('./countries.esm.js'),
-      flags: require('./flags.esm.js'),
+      countries: require('./countries.mjs'),
+      flags: require('./flags.mjs'),
     }
   }
 
