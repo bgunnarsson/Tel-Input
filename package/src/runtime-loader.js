@@ -2,8 +2,8 @@ export default async function loadModules() {
   if (typeof require === 'function') {
     // CommonJS environment
     return {
-      countries: require('./countries.cjs.js'),
-      flags: require('./flags.cjs.js'),
+      countries: require('./countries.esm.js'),
+      flags: require('./flags.esm.js'),
     }
   } else if (typeof import.meta !== 'undefined') {
     // ESM environment
