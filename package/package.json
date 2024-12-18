@@ -4,8 +4,7 @@
   "description": "International Telephone Input javascript library",
   "type": "module",
   "access": "private",
-  "main": "dist/tel-input.cjs.js",
-  "module": "dist/tel-input.esm.js",
+  "main": "dist/tel-input.esm.js",
   "scripts": {
     "build:p": "rollup -c",
     "dist": "pnpm publish"
@@ -13,8 +12,7 @@
   "exports": {
     ".": {
       "import": "./dist/tel-input.esm.js",
-      "require": "./dist/tel-input.cjs.js",
-      "types": "./tel-input.d.ts"
+      "require": "./dist/tel-input.cjs.js"
     },
     "./countries": {
       "import": "./dist/countries.esm.js",
