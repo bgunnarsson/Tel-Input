@@ -1,14 +1,7 @@
-async function loadModules() {
-  if (typeof require === 'function') {
-    // Adjust paths for the bundled files
-    return {
-      countries: require('./countries.mjs').default,
-      flags: require('flags.mjs').default,
-    }
-  }
+import flags from './flags.mjs'
+import countries from './countries.mjs'
 
-  throw new Error('Unsupported environment: Cannot load countries and flags')
-}
+console.log('countries', countries)
 
 export default class TelInput {
   constructor(options) {
@@ -36,15 +29,15 @@ export default class TelInput {
   async init() {
     // console.time('TelInput Initialization')
 
-    const { countries, flags } = await loadModules()
-
     // Cache flags
     this.cachedFlags = Object.fromEntries(Object.entries(flags).map(([key, value]) => [key.toLowerCase(), value]))
 
     // Prepare sorted countries asynchronously
-    setTimeout(() => {
-      this.sortedCountries = this.getSortedCountries(countries)
-    }, 0)
+    //setTimeout(() => {
+    this.sortedCountries = this.getSortedCountries(countries)
+    //}, 0)
+    //
+    console.log(this.sortedCountries)
 
     // Initialize all targets
     const targets = document.querySelectorAll(this.config.target)
@@ -68,7 +61,6 @@ export default class TelInput {
       return []
     }
 
-    // Validate each country object
     const validCountries = countries.filter((data) => {
       return (
         data &&
@@ -93,7 +85,7 @@ export default class TelInput {
 
     return [...priorityCountries, ...nonPriorityCountries].map((data) => ({
       name: data.name,
-      countryCode: data.dialCode,
+      countryCode: data.countryCode,
       iso: data.iso.toLowerCase(),
       flag: this.cachedFlags[data.iso.toLowerCase()] || '🌍',
     }))
@@ -147,12 +139,21 @@ export default class TelInput {
     return container
   }
 
+  createLoader() {
+    const loader = document.createElement('div')
+    loader.classList.add('bg-telinput__loader')
+
+    const loaderSpan = document.createElement('span')
+    loaderSpan.classList.add('bg-telinput__loader-span')
+
+    loader.appendChild(loaderSpan)
+  }
+
   createDropdownSkeleton(trigger, input) {
     const dropdown = document.createElement('div')
     dropdown.classList.add('bg-telinput__dropdown')
     dropdown.style.display = 'none'
 
-    // Search field
     const searchContainer = document.createElement('div')
     searchContainer.classList.add('bg-telinput__search')
 
@@ -162,10 +163,8 @@ export default class TelInput {
     searchContainer.appendChild(searchInput)
     dropdown.appendChild(searchContainer)
 
-    // Add search functionality
     searchInput.addEventListener('input', (e) => this.handleSearch(e, dropdown))
 
-    // Lazy-load dropdown content on first trigger click
     trigger.addEventListener('click', () => {
       if (!dropdown.dataset.loaded) {
         this.lazyLoadDropdown(dropdown, input, trigger)
@@ -245,13 +244,34 @@ export default class TelInput {
   }
 
   handleSearch(e, dropdown) {
-    const query = e.target.value.toLowerCase()
-    const items = dropdown.querySelectorAll('.bg-telinput__dropdown-item')
+    if (dropdown) {
+      const query = e.target.value.toLowerCase()
+      const allCountries = this.getSortedCountries(countries)
+      const items = allCountries.filter((country) => country?.name?.toLowerCase().includes(query))
 
-    items.forEach((item) => {
-      const country = item.dataset.country.toLowerCase()
-      item.style.display = country.includes(query) ? 'flex' : 'none'
-    })
+      const dropdownItems = dropdown.querySelectorAll('.bg-telinput__dropdown-item')
+      if (dropdownItems) {
+        dropdownItems.forEach((item) => item.remove())
+      }
+
+      if (items) {
+        items.forEach((country) => {
+          const trigger = dropdown.parentNode.parentNode.querySelector('.bg-telinput__trigger')
+          const input = dropdown.parentNode.parentNode.querySelector('.input-group__input')
+
+          const item = this.createDropdownItem(
+            country?.name,
+            country?.countryCode,
+            country?.flag,
+            input,
+            trigger,
+            dropdown
+          )
+
+          dropdown.appendChild(item)
+        })
+      }
+    }
   }
 
   dispatchEvent(name, data = {}) {

@@ -6,7 +6,7 @@
     "build:t": "pnpm --filter vanilla build:t",
     "build:p": "pnpm --filter @bgunnarsson/tel-input build:p",
     "dev": "pnpm --filter=vanilla dev:t",
-    "dist": "pnpm build:p & pnpm --filter @bgunnarsson/tel-input dist",
+    "dist": "pnpm git & pnpm build:p & pnpm --filter @bgunnarsson/tel-input dist",
     "git": "git add . && git commit -m update && git push origin main"
   },
   "dependencies": {
@@ -15,19 +15,10 @@
   },
   "pnpm": {
     "peerDependencyRules": {
-      "ignoreMissing": [
-        "vite",
-        "react",
-        "react-dom",
-        "@types/react",
-        "tslib",
-        "quill-delta",
-        "rxjs"
-      ],
-      "allowAny": [
-        "rustikus"
-      ]
-    }
+      "ignoreMissing": ["vite", "react", "react-dom", "@types/react", "tslib", "quill-delta", "rxjs"],
+      "allowAny": ["rustikus"]
+    },
+    "onlyBuiltDependencies": ["esbuild"]
   },
   "keywords": [],
   "author": "",

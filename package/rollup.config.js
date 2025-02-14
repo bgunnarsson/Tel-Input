@@ -7,7 +7,7 @@ import copy from 'rollup-plugin-copy'
 import fs from 'node:fs'
 
 // Load the content of flags.mjs as a raw string
-const flagsContent = fs.readFileSync('src/flags.mjs', 'utf-8')
+// const flagsContent = fs.readFileSync('src/flags.mjs', 'utf-8')
 
 export default {
   input: 'src/index.mjs', // Your input file
@@ -17,23 +17,8 @@ export default {
       format: 'esm',
       sourcemap: true,
     },
-    {
-      file: 'dist/tel-input.cjs.js',
-      format: 'cjs',
-      sourcemap: true,
-    },
-    {
-      file: 'dist/tel-input.min.js',
-      format: 'iife',
-      name: 'TelInput',
-      sourcemap: true,
-      plugins: [terser()],
-    },
   ],
   plugins: [
-    virtual({
-      'flags.mjs': flagsContent, // Use virtual module for flags.mjs
-    }),
     resolve({
       extensions: ['.js', '.mjs'],
     }),
@@ -42,8 +27,9 @@ export default {
     copy({
       targets: [
         { src: 'src/countries.mjs', dest: 'dist' }, // Copy countries.mjs as-is
+        { src: 'src/flags.mjs', dest: 'dist' }, // Copy countries.mjs as-is
       ],
     }),
   ],
-  external: ['./countries.mjs'], // Mark countries.mjs as an external dependency
+  external: ['./countries.mjs', './flags.mjs'], // Mark countries.mjs as an external dependency
 }

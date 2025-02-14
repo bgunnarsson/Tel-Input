@@ -1,33 +1,23 @@
 {
   "name": "@bgunnarsson/tel-input",
-  "version": "0.0.30",
+  "version": "0.1.0",
   "description": "International Telephone Input JavaScript library",
   "type": "module",
   "access": "private",
   "main": "dist/tel-input.esm.js",
   "exports": {
     ".": "./dist/tel-input.esm.js",
-    "./countries": "./dist/countries.mjs",
-    "./flags": "./dist/flags.mjs"
+    "./countries.mjs": "./dist/countries.mjs",
+    "./flags.mjs": "./dist/flags.mjs"
   },
   "types": "./tel-input.d.ts",
-  "files": [
-    "dist",
-    "package.json",
-    "README.md",
-    "tel-input.d.ts"
-  ],
+  "files": ["dist", "package.json", "README.md", "tel-input.d.ts"],
   "scripts": {
     "build": "rollup -c",
     "build:p": "rollup -c",
     "dist": "pnpm publish"
   },
-  "keywords": [
-    "telephone",
-    "input",
-    "tel",
-    "country input"
-  ],
+  "keywords": ["telephone", "input", "tel", "country input"],
   "author": "B. Gunnarsson | www.bgunnarsson.com",
   "license": "ISC",
   "devDependencies": {
