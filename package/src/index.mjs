@@ -1,8 +1,6 @@
 import flags from './flags.mjs'
 import countries from './countries.mjs'
 
-console.log('countries', countries)
-
 export default class TelInput {
   constructor(options) {
     if (!options) {
@@ -36,8 +34,6 @@ export default class TelInput {
     //setTimeout(() => {
     this.sortedCountries = this.getSortedCountries(countries)
     //}, 0)
-    //
-    console.log(this.sortedCountries)
 
     // Initialize all targets
     const targets = document.querySelectorAll(this.config.target)
