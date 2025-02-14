@@ -6,7 +6,7 @@
     "build:t": "pnpm --filter vanilla build:t",
     "build:p": "pnpm --filter @bgunnarsson/tel-input build:p",
     "dev": "pnpm --filter=vanilla dev:t",
-    "dist": "pnpm prebuild & pnpm --filter @bgunnarsson/tel-input dist",
+    "dist": "pnpm prebuild && pnpm --filter @bgunnarsson/tel-input dist",
 
     "prebuild": "pnpm build:p & pnpm git",
     "git": "git add . && git commit -m update && git push origin main"
