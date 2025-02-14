@@ -6,7 +6,7 @@
     "build:t": "pnpm --filter vanilla build:t",
     "build:p": "pnpm --filter @bgunnarsson/tel-input build:p",
     "dev": "pnpm --filter=vanilla dev:t",
-    "dist": "pnpm git & pnpm build:p & pnpm --filter @bgunnarsson/tel-input dist",
+    "dist": "pnpm git && pnpm build:p & pnpm --filter @bgunnarsson/tel-input dist",
     "git": "git add . && git commit -m update && git push origin main"
   },
   "dependencies": {
