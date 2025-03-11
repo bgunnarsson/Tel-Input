@@ -233,6 +233,7 @@ export default class TelInput {
       this.dispatchEvent('CountryClick', {
         country: name,
         code: countryCode,
+        iso: iso,
         // flag: flag,
       })
     })

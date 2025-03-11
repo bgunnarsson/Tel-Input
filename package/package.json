@@ -1,7 +1,7 @@
 {
   "name": "@bgunnarsson/tel-input",
-  "version": "0.1.4",
-  "description": "International Telephone Input JavaScript library",
+  "version": "0.1.5",
+  "description": "International Telephone Input JavaScript Library",
   "type": "module",
   "access": "private",
   "main": "dist/tel-input.esm.js",
@@ -26,7 +26,9 @@
     "telephone",
     "input",
     "tel",
-    "country input"
+    "country input",
+    "telephone input",
+    "phone input"
   ],
   "author": "B. Gunnarsson | www.bgunnarsson.com",
   "license": "ISC",
