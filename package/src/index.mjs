@@ -197,21 +197,22 @@ export default class TelInput {
     const fragment = document.createDocumentFragment()
     const itemsToRender = this.sortedCountries.slice(startIndex, startIndex + count)
 
-    itemsToRender.forEach(({ name, countryCode, flag }) => {
-      const item = this.createDropdownItem(name, countryCode, flag, input, trigger, dropdown)
+    itemsToRender.forEach(({ name, countryCode, flag, iso }) => {
+      const item = this.createDropdownItem(name, countryCode, flag, input, trigger, dropdown, iso)
       fragment.appendChild(item)
     })
 
     dropdown.appendChild(fragment)
   }
 
-  createDropdownItem(name, countryCode, flag, input, trigger, dropdown) {
+  createDropdownItem(name, countryCode, flag, input, trigger, dropdown, iso) {
     const item = document.createElement('button')
     item.type = 'button'
     item.classList.add('bg-telinput__dropdown-item')
     item.dataset.country = name
     item.dataset.code = countryCode
     item.dataset.flag = flag
+    item.dataset.iso = iso
 
     const flagElement = document.createElement('span')
     flagElement.classList.add('bg-telinput__dropdown-flag')
@@ -261,7 +262,8 @@ export default class TelInput {
             country?.flag,
             input,
             trigger,
-            dropdown
+            dropdown,
+            country?.iso
           )
 
           dropdown.appendChild(item)
