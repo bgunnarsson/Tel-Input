@@ -85,12 +85,6 @@ const telInput = new TelInput({
   }
 });
 ```
-<detail>
-<summary>Full HTML markup</summary>
-```
-
-```
-</detail>
 
 ## License
 
