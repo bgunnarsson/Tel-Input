@@ -1,0 +1,1 @@
+export default "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 12 8\"><path fill=\"#E30A17\" d=\"M0 0h12v8H0z\"/><path fill=\"#fff\" d=\"M4.25 2a2 2 0 1 0 0 4 2 2 0 1 0 0-4\"/><path fill=\"#e30a17\" d=\"M4.75 2.4a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 1 0 0-3.2\"/><path fill=\"#fff\" d=\"m5.833 4 1.81.588-1.119-1.54v1.903l1.118-1.539z\"/></svg>";

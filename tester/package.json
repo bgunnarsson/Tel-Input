@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@bgunnarsson/tel-input": "workspace:*",
+    "vite-plugin-string": "^1.2.3",
     "vite-plugin-svgr": "^4.3.0"
   },
   "devDependencies": {

@@ -7,11 +7,13 @@
     "build:p": "pnpm --filter @bgunnarsson/tel-input build:p",
     "dev": "pnpm --filter=vanilla dev:t",
     "dist": "pnpm build:p & pnpm --filter @bgunnarsson/tel-input dist",
-    "git": "git add . && git commit -m update && git push origin main"
+    "git": "git add . && git commit -m update && git push origin main",
+    "svgo": "svgo -f package/src/flags --recursive --config=svgo.config.js"
   },
   "dependencies": {
     "@babel/core": "^7.26.0",
-    "@bgunnarsson/tel-input": "workspace:*"
+    "@bgunnarsson/tel-input": "workspace:*",
+    "svgo": "^3.3.2"
   },
   "pnpm": {
     "peerDependencyRules": {

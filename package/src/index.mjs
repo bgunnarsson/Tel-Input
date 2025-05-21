@@ -1,4 +1,3 @@
-import flags from './flags.mjs'
 import countries from './countries.mjs'
 
 export default class TelInput {
@@ -11,11 +10,11 @@ export default class TelInput {
     this.config = {
       target: options?.target || '.bg-telinput',
       wrapper: options?.wrapper || '.bg-telinput__input-wrap',
-      country: options?.country || '', // Default country ISO
-      code: options?.code || '', // Default country code
-      exclude: options?.exclude || [], // List of ISO codes to exclude
-      priority: options?.priority || [], // List of priority ISO codes
-      fillInput: 'fillInput' in options ? options.fillInput : true, // Explicitly check if `fillInput` is provided
+      country: options?.country || '',
+      code: options?.code || '',
+      exclude: options?.exclude || [],
+      priority: options?.priority || [],
+      fillInput: 'fillInput' in options ? options.fillInput : true,
       search: {
         placeholder: options?.search?.placeholder || '',
       },
@@ -25,30 +24,30 @@ export default class TelInput {
   }
 
   async init() {
-    // console.time('TelInput Initialization')
-
-    // Cache flags
-    this.cachedFlags = Object.fromEntries(Object.entries(flags).map(([key, value]) => [key.toLowerCase(), value]))
-
-    // Prepare sorted countries asynchronously
-    //setTimeout(() => {
+    // Prepare sorted country list
     this.sortedCountries = this.getSortedCountries(countries)
-    //}, 0)
 
-    // Initialize all targets
-    const targets = document.querySelectorAll(this.config.target)
-    targets.forEach((target) => this.initializeTarget(target))
-
-    // console.timeEnd('TelInput Initialization')
+    // Initialize inputs
+    document.querySelectorAll(this.config.target).forEach((target) => {
+      this.initializeTarget(target)
+    })
   }
 
   initializeTarget(target) {
     const wrapper = target.querySelector(this.config.wrapper)
     const input = target.querySelector('input')
-
-    // Build TelInput structure
     const telInput = this.buildTelInput(input)
     wrapper.appendChild(telInput)
+  }
+
+  // Dynamically import the JS module for the flag
+  async loadFlag(iso) {
+    try {
+      const mod = await import(`./flags-optimized/${iso}.js`)
+      return mod.default
+    } catch {
+      return '🌍'
+    }
   }
 
   getSortedCountries(countries) {
@@ -57,92 +56,47 @@ export default class TelInput {
       return []
     }
 
-    const validCountries = countries.filter((data) => {
-      return (
-        data &&
-        typeof data.name === 'string' &&
-        data.name.trim() !== '' &&
-        typeof data.iso === 'string' &&
-        data.iso.trim() !== ''
-      )
-    })
+    const valid = countries.filter((c) => c.name && c.iso)
+    const filtered = valid.filter((c) => !this.config.exclude.includes(c.iso.toLowerCase()))
 
-    const filteredCountries = validCountries.filter((data) => !this.config.exclude.includes(data.iso.toLowerCase()))
-
-    const priorityCountries = filteredCountries
-      .filter((data) => this.config.priority.includes(data.iso.toLowerCase()))
+    const priority = filtered
+      .filter((c) => this.config.priority.includes(c.iso.toLowerCase()))
       .sort(
         (a, b) => this.config.priority.indexOf(a.iso.toLowerCase()) - this.config.priority.indexOf(b.iso.toLowerCase())
       )
 
-    const nonPriorityCountries = filteredCountries.filter(
-      (data) => !this.config.priority.includes(data.iso.toLowerCase())
-    )
+    const nonPriority = filtered.filter((c) => !this.config.priority.includes(c.iso.toLowerCase()))
 
-    return [...priorityCountries, ...nonPriorityCountries].map((data) => ({
-      name: data.name,
-      countryCode: data.countryCode,
-      iso: data.iso.toLowerCase(),
-      flag: this.cachedFlags[data.iso.toLowerCase()] || '🌍',
+    return [...priority, ...nonPriority].map((c) => ({
+      name: c.name,
+      countryCode: c.countryCode,
+      iso: c.iso.toLowerCase(),
     }))
   }
-
-  // getSortedCountries(countries) {
-  //   if (!countries) {
-  //     console.error('[@bgunnarsson/tel-input] No countries provided.')
-  //     return
-  //   }
-  //   const filteredCountries = countries?.filter((data) => !this.config.exclude.includes(data.iso.toLowerCase()))
-
-  //   const priorityCountries = filteredCountries
-  //     .filter((data) => this.config.priority.includes(data.iso.toLowerCase()))
-  //     .sort(
-  //       (a, b) => this.config.priority.indexOf(a.iso.toLowerCase()) - this.config.priority.indexOf(b.iso.toLowerCase())
-  //     )
-
-  //   const nonPriorityCountries = filteredCountries.filter(
-  //     (data) => !this.config.priority.includes(data.iso.toLowerCase())
-  //   )
-
-  //   return [...priorityCountries, ...nonPriorityCountries].map((data) => ({
-  //     name: data.name,
-  //     countryCode: data.countryCode,
-  //     iso: data.iso.toLowerCase(),
-  //     flag: this.cachedFlags[data.iso.toLowerCase()] || '🌍',
-  //   }))
-  // }
 
   buildTelInput(input) {
     const container = document.createElement('div')
     container.classList.add('bg-telinput__tel')
 
-    // Trigger button
     const trigger = document.createElement('button')
     trigger.type = 'button'
     trigger.classList.add('bg-telinput__trigger')
-    trigger.innerHTML = this.cachedFlags[this.config.country.toLowerCase()] || '🌍'
+    trigger.innerHTML = '…'
+    if (this.config.country) {
+      this.loadFlag(this.config.country.toLowerCase()).then((svg) => {
+        trigger.innerHTML = svg
+      })
+    }
     container.appendChild(trigger)
 
-    // Pre-fill input
     if (this.config.fillInput && this.config.code) {
-      input.value = `${this.config.code} `
+      input.value = `+${this.config.code} `
     }
 
-    // Dropdown menu (virtualized and lazy-loaded)
     const dropdown = this.createDropdownSkeleton(trigger, input)
     container.appendChild(dropdown)
 
     return container
-  }
-
-  createLoader() {
-    const loader = document.createElement('div')
-    loader.classList.add('bg-telinput__loader')
-
-    const loaderSpan = document.createElement('span')
-    loaderSpan.classList.add('bg-telinput__loader-span')
-
-    loader.appendChild(loaderSpan)
   }
 
   createDropdownSkeleton(trigger, input) {
@@ -152,7 +106,6 @@ export default class TelInput {
 
     const searchContainer = document.createElement('div')
     searchContainer.classList.add('bg-telinput__search')
-
     const searchInput = document.createElement('input')
     searchInput.type = 'text'
     searchInput.placeholder = this.config.search.placeholder
@@ -160,14 +113,12 @@ export default class TelInput {
     dropdown.appendChild(searchContainer)
 
     searchInput.addEventListener('input', (e) => this.handleSearch(e, dropdown))
-
     trigger.addEventListener('click', () => {
       if (!dropdown.dataset.loaded) {
         this.lazyLoadDropdown(dropdown, input, trigger)
         dropdown.dataset.loaded = 'true'
       }
       dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block'
-
       this.dispatchEvent('TriggerClick')
     })
 
@@ -175,111 +126,71 @@ export default class TelInput {
   }
 
   lazyLoadDropdown(dropdown, input, trigger) {
-    if (!this.sortedCountries) {
-      console.warn('Sorted countries not ready yet.')
-      return
-    }
-
-    // Virtualized rendering: only render the top 10 items
+    if (!this.sortedCountries) return
     this.renderVirtualizedDropdown(dropdown, input, trigger, 0, 10)
-
-    // Add scroll event for lazy rendering
     dropdown.addEventListener('scroll', () => {
       const { scrollTop, scrollHeight, clientHeight } = dropdown
       if (scrollTop + clientHeight >= scrollHeight - 50) {
-        const currentCount = dropdown.querySelectorAll('.bg-telinput__dropdown-item').length
-        this.renderVirtualizedDropdown(dropdown, input, trigger, currentCount, 10)
+        const current = dropdown.querySelectorAll('.bg-telinput__dropdown-item').length
+        this.renderVirtualizedDropdown(dropdown, input, trigger, current, 10)
       }
     })
   }
 
-  renderVirtualizedDropdown(dropdown, input, trigger, startIndex, count) {
+  renderVirtualizedDropdown(dropdown, input, trigger, start, count) {
     const fragment = document.createDocumentFragment()
-    const itemsToRender = this.sortedCountries.slice(startIndex, startIndex + count)
-
-    itemsToRender.forEach(({ name, countryCode, flag, iso }) => {
-      const item = this.createDropdownItem(name, countryCode, flag, input, trigger, dropdown, iso)
+    this.sortedCountries.slice(start, start + count).forEach(({ name, countryCode, iso }) => {
+      const item = this.createDropdownItem(name, countryCode, input, trigger, dropdown, iso)
       fragment.appendChild(item)
     })
-
     dropdown.appendChild(fragment)
   }
 
-  createDropdownItem(name, countryCode, flag, input, trigger, dropdown, iso) {
+  createDropdownItem(name, code, input, trigger, dropdown, iso) {
     const item = document.createElement('button')
     item.type = 'button'
     item.classList.add('bg-telinput__dropdown-item')
     item.dataset.country = name
-    item.dataset.code = countryCode
-    item.dataset.flag = flag
+    item.dataset.code = code
     item.dataset.iso = iso
 
-    const flagElement = document.createElement('span')
-    flagElement.classList.add('bg-telinput__dropdown-flag')
-    flagElement.innerHTML = flag
-    item.appendChild(flagElement)
+    const flagEl = document.createElement('span')
+    flagEl.classList.add('bg-telinput__dropdown-flag')
+    flagEl.innerHTML = '…'
+    this.loadFlag(iso).then((svg) => {
+      flagEl.innerHTML = svg
+    })
+    item.appendChild(flagEl)
 
-    const textElement = document.createElement('span')
-    textElement.textContent = name
-    item.appendChild(textElement)
+    const textEl = document.createElement('span')
+    textEl.textContent = name
+    item.appendChild(textEl)
 
     item.addEventListener('click', () => {
-      if (this.config?.fillInput) {
-        input.value = `+${countryCode} `
-      }
-      trigger.innerHTML = flag
-      dropdown.style.display = 'none'
-
-      this.dispatchEvent('CountryClick', {
-        country: name,
-        code: countryCode,
-        iso: iso,
-        // flag: flag,
+      if (this.config.fillInput) input.value = `+${code} `
+      this.loadFlag(iso).then((svg) => {
+        dropdown.previousSibling.innerHTML = svg
       })
+      dropdown.style.display = 'none'
+      this.dispatchEvent('CountryClick', { country: name, code, iso })
     })
 
     return item
   }
 
   handleSearch(e, dropdown) {
-    if (dropdown) {
-      const query = e.target.value.toLowerCase()
-      const allCountries = this.getSortedCountries(countries)
-      const items = allCountries.filter((country) => country?.name?.toLowerCase().includes(query))
-
-      const dropdownItems = dropdown.querySelectorAll('.bg-telinput__dropdown-item')
-      if (dropdownItems) {
-        dropdownItems.forEach((item) => item.remove())
-      }
-
-      if (items) {
-        items.forEach((country) => {
-          const trigger = dropdown.parentNode.parentNode.querySelector('.bg-telinput__trigger')
-          const input = dropdown.parentNode.parentNode.querySelector('.input-group__input')
-
-          const item = this.createDropdownItem(
-            country?.name,
-            country?.countryCode,
-            country?.flag,
-            input,
-            trigger,
-            dropdown,
-            country?.iso
-          )
-
-          dropdown.appendChild(item)
-        })
-      }
-    }
+    const query = e.target.value.toLowerCase()
+    const filtered = this.getSortedCountries(countries).filter((c) => c.name.toLowerCase().includes(query))
+    dropdown.querySelectorAll('.bg-telinput__dropdown-item').forEach((i) => i.remove())
+    filtered.forEach(({ name, countryCode, iso }) => {
+      const trigger = dropdown.previousSibling
+      const input = dropdown.parentNode.querySelector('input')
+      const item = this.createDropdownItem(name, countryCode, input, trigger, dropdown, iso)
+      dropdown.appendChild(item)
+    })
   }
 
-  dispatchEvent(name, data = {}) {
-    const customEvent = new CustomEvent(`TelInput:${name}`, {
-      detail: {
-        ...data,
-      },
-    })
-
-    document.dispatchEvent(customEvent)
+  dispatchEvent(name, detail = {}) {
+    document.dispatchEvent(new CustomEvent(`TelInput:${name}`, { detail }))
   }
 }

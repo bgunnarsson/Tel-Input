@@ -28,6 +28,7 @@ export default {
       targets: [
         { src: 'src/countries.mjs', dest: 'dist' }, // Copy countries.mjs as-is
         { src: 'src/flags.mjs', dest: 'dist' }, // Copy countries.mjs as-is
+        { src: 'src/flags-optimized', dest: 'dist' }, // Copy countries.mjs as-is
       ],
     }),
   ],

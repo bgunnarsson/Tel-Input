@@ -1,24 +1,30 @@
 import fs from 'node:fs'
 import path from 'node:path'
-
 import { fileURLToPath } from 'node:url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-const flagsDir = path.join(__dirname, 'flags-optimized') // Adjust path to the flags folder
-const outputFilePath = path.join(__dirname, 'flags.mjs')
+const svgDir = path.join(__dirname, 'flags-optimized-svg')
+const outDir = path.join(__dirname, 'flags-optimized')
+const flagsMap = []
 
-const flagFiles = fs.readdirSync(flagsDir)
+// ensure output dir exists
+fs.mkdirSync(outDir, { recursive: true })
 
-const flagsMap = {}
+for (const file of fs.readdirSync(svgDir).filter((f) => f.endsWith('.svg'))) {
+  const iso = path.basename(file, '.svg')
+  const svgSrc = fs.readFileSync(path.join(svgDir, file), 'utf8')
+  const jsModule = `export default ${JSON.stringify(svgSrc)};\n`
 
-flagFiles.forEach((file) => {
-  const iso2 = path.basename(file, '.svg')
-  const svgContent = fs.readFileSync(path.join(flagsDir, file), 'utf8') // Read SVG content
-  flagsMap[iso2] = svgContent // Store the raw SVG content in the map
-})
+  // write us.js, ca.js, etc.
+  fs.writeFileSync(path.join(outDir, `${iso}.js`), jsModule, 'utf8')
 
-// Write the map to a JavaScript file
-fs.writeFileSync(outputFilePath, `export default ${JSON.stringify(flagsMap, null, 2)};`)
+  // collect for flags.mjs
+  flagsMap.push(`  "${iso}": () => import("./flags-optimized/${iso}.js")`)
+}
 
-console.log(`flags.mjs generated at ${outputFilePath}`)
+// emit flags.mjs
+const flagsMjs = `// auto-generated\nexport default {\n${flagsMap.join(',\n')}\n}\n`
+fs.writeFileSync(path.join(__dirname, 'flags.mjs'), flagsMjs, 'utf8')
+
+console.log('✅ flags.js modules generated')

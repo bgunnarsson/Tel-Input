@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   document.addEventListener('TelInput:CountryClick', (e) => {
-    console.log('[Heard] TelInput:CountryClick', e)
+    console.log('[Heard] TelInput:CountryClick', e?.detail?.iso)
   })
 
   document.addEventListener('TelInput:TriggerClick', (e) => {
