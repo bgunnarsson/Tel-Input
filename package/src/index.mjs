@@ -112,7 +112,8 @@ export default class TelInput {
     searchContainer.appendChild(searchInput)
     dropdown.appendChild(searchContainer)
 
-    searchInput.addEventListener('input', (e) => this.handleSearch(e, dropdown))
+    searchInput.addEventListener('input', (e) => this.handleSearch(e, dropdown, input, trigger))
+    // searchInput.addEventListener('input', (e) => this.handleSearch(e, dropdown))
     trigger.addEventListener('click', () => {
       if (!dropdown.dataset.loaded) {
         this.lazyLoadDropdown(dropdown, input, trigger)
@@ -126,7 +127,9 @@ export default class TelInput {
   }
 
   lazyLoadDropdown(dropdown, input, trigger) {
-    if (!this.sortedCountries) return
+    if (!this.sortedCountries) {
+      return
+    }
     this.renderVirtualizedDropdown(dropdown, input, trigger, 0, 10)
     dropdown.addEventListener('scroll', () => {
       const { scrollTop, scrollHeight, clientHeight } = dropdown
@@ -146,7 +149,7 @@ export default class TelInput {
     dropdown.appendChild(fragment)
   }
 
-  createDropdownItem(name, code, input, trigger, dropdown, iso) {
+  createDropdownItem(name, code, input, _trigger, dropdown, iso) {
     const item = document.createElement('button')
     item.type = 'button'
     item.classList.add('bg-telinput__dropdown-item')
@@ -167,7 +170,9 @@ export default class TelInput {
     item.appendChild(textEl)
 
     item.addEventListener('click', () => {
-      if (this.config.fillInput) input.value = `+${code} `
+      if (this.config.fillInput) {
+        input.value = `+${code} `
+      }
       this.loadFlag(iso).then((svg) => {
         dropdown.previousSibling.innerHTML = svg
       })
@@ -177,18 +182,27 @@ export default class TelInput {
 
     return item
   }
-
-  handleSearch(e, dropdown) {
+  handleSearch(e, dropdown, input, trigger) {
     const query = e.target.value.toLowerCase()
     const filtered = this.getSortedCountries(countries).filter((c) => c.name.toLowerCase().includes(query))
     dropdown.querySelectorAll('.bg-telinput__dropdown-item').forEach((i) => i.remove())
     filtered.forEach(({ name, countryCode, iso }) => {
-      const trigger = dropdown.previousSibling
-      const input = dropdown.parentNode.querySelector('input')
       const item = this.createDropdownItem(name, countryCode, input, trigger, dropdown, iso)
       dropdown.appendChild(item)
     })
   }
+
+  // handleSearch(e, dropdown) {
+  //   const query = e.target.value.toLowerCase()
+  //   const filtered = this.getSortedCountries(countries).filter((c) => c.name.toLowerCase().includes(query))
+  //   dropdown.querySelectorAll('.bg-telinput__dropdown-item').forEach((i) => i.remove())
+  //   filtered.forEach(({ name, countryCode, iso }) => {
+  //     const trigger = dropdown.previousSibling
+  //     const input = dropdown.parentNode.querySelector('input')
+  //     const item = this.createDropdownItem(name, countryCode, input, trigger, dropdown, iso)
+  //     dropdown.appendChild(item)
+  //   })
+  // }
 
   dispatchEvent(name, detail = {}) {
     document.dispatchEvent(new CustomEvent(`TelInput:${name}`, { detail }))
